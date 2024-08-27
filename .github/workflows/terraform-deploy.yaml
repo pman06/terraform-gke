@@ -51,18 +51,17 @@ jobs:
       env:
         creds: ${{ secrets.GOOGLE_CREDENTIALS }} 
 
-    - uses: trstringer/manual-approval@v1
-      with:
-        secret: ${{ github.TOKEN }}
-        approvers: pman06
-        minimum-approvals: 1
-        issue-title: "Deploying v1.0.0 to prod"
-        issue-body: "Review the terraform plan, then approve or deny the deployment of v1.0.0 to prod."
-        exclude-workflow-initiator-as-approver: false
+        # Trigger manual approval before apply
+    # - uses: trstringer/manual-approval@v1
+    #   with:
+    #     secret: ${{ github.TOKEN }}
+    #     approvers: pman06
+    #     minimum-approvals: 1
+    #     issue-title: "Deploying v1.0.0 to prod"
+    #     issue-body: "Review the terraform plan, then approve or deny the deployment of v1.0.0 to prod."
+    #     exclude-workflow-initiator-as-approver: false
 
     - name: Terraform apply
       working-directory: ./terraform/
       run: |
         terraform apply --auto-approve=true -var gcp_credentials=key.json
-      # env:
-      #   GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }} 
