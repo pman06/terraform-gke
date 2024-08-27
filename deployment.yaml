@@ -44,7 +44,7 @@ spec:
 ---
 
 
-# Adding a simple secret to make our app deployabled on any kubernetes cluster platform
+# Adding a simple secret to make our app deployable on any kubernetes cluster platform
 # For security, we could use https://github.com/bitnami-labs/sealed-secrets#readme
 apiVersion: v1
 data:
