@@ -1,4 +1,4 @@
-name: GCP Instance Terraform Deployment
+name: GCP Instance Terraform Destroy
 
 on: 
   workflow_dispatch:
