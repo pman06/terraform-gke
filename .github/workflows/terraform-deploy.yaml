@@ -30,15 +30,18 @@ jobs:
 
     - name: Prepare backend config
       id: prepare
+      working-directory: terraform/
       run: |
         envsubst < backend.conf
         envsubst < backend.conf > backend.conf.generated
 
     - name: Terraform Backend Init
+      working-directory: terraform/
       run: |
           terraform init --backend-config=backend.conf.generated
     
     - name: Terraform plan
+      working-directory: terraform/
       run: |
         terraform plan
 
@@ -52,5 +55,6 @@ jobs:
         exclude-workflow-initiator-as-approver: false
 
     - name: Terraform apply
+      working-directory: terraform/
       run: |
         terraform apply --auto-approve=true
