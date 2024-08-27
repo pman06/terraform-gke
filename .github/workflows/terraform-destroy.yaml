@@ -1,9 +1,6 @@
 name: GCP Instance Terraform Deployment
 
 on: 
-  push:
-    branches:
-      - main
   workflow_dispatch:
 
 env:
@@ -13,7 +10,7 @@ env:
   TF_STATE_BUCKET: ${{ vars.TF_STATE_BUCKET}}
   TF_STATE_PREFIX: ${{  vars.TF_STATE_PREFIX }}
 
-
+  
 jobs:
   terraform-deploy:  
     runs-on: ubuntu-latest
@@ -45,6 +42,8 @@ jobs:
       working-directory: ./terraform/
       run: |
           terraform init --backend-config=backend.conf.generated
+      # env:
+      #   gcp_credentials: ${{ secrets.GOOGLE_CREDENTIALS }} 
     
     - name: Terraform plan
       working-directory: ./terraform/
@@ -65,7 +64,7 @@ jobs:
     #     issue-body: "Review the terraform plan, then approve or deny the deployment of v1.0.0 to prod."
     #     exclude-workflow-initiator-as-approver: false
 
-    - name: Terraform apply
+    - name: Terraform destroy
       working-directory: ./terraform/
       run: |
-        terraform apply --auto-approve=true -var gcp_credentials=key.json
+        terraform destroy --auto-approve=true -var gcp_credentials=key.json
