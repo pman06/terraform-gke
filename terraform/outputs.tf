@@ -3,7 +3,7 @@ output "vpc_self_link"{
 }
 
 output "subnet_self_link" {
-  value = google_compute_subnetwork.this.se
+  value = google_compute_subnetwork.this
 }
 
 output "firewall_rules" {

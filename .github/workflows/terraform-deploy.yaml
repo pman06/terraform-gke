@@ -39,19 +39,16 @@ jobs:
       working-directory: ./terraform/
       run: |
           terraform init --backend-config=backend.conf.generated
-      env:
-        GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }} 
+      # env:
+      #   gcp_credentials: ${{ secrets.GOOGLE_CREDENTIALS }} 
     
     - name: Terraform plan
       working-directory: ./terraform/
       run: |
-        ls -a ~
-        echo "start of env"
-        env
-        echo "end of env"
-        terraform plan
+        echo '$creds' >> key.json
+        terraform plan -var gcp_credentials=key.json
       env:
-        GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }} 
+        creds: ${{ secrets.GOOGLE_CREDENTIALS }} 
 
     - uses: trstringer/manual-approval@v1
       with:
@@ -65,6 +62,6 @@ jobs:
     - name: Terraform apply
       working-directory: ./terraform/
       run: |
-        terraform apply --auto-approve=true
-      env:
-        GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }} 
+        terraform apply --auto-approve=true -var gcp_credentials=key.json
+      # env:
+      #   GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }} 
