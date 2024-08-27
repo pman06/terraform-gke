@@ -9,19 +9,13 @@ variable "region" {
   type        = string
 }
 
-
-variable "zone" {
-  description = "Deployment zone"
-  type        = string
-}
-
 variable "project" {
   description = "Deployment project"
   type        = string
 }
 
 
-variable "cluster_name" {
+variable "name" {
   type        = string
   description = "vpc, subnet and gke cluster name"
 }
@@ -39,15 +33,15 @@ variable "cidrBlock" {
 }
 
 variable "gcp_credentials" {
-  type = string
-  sensitive = true
+  type        = string
+  sensitive   = true
   description = "Google Cloud service account credentials"
 }
 
 variable "instance_type" {
-  type = string
+  type        = string
   description = "Google Cloud service account credentials"
-  default="n2-standard-2"
+  default     = "n2-standard-2"
 }
 
 variable "nodepools" {
