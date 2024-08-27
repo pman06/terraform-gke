@@ -30,20 +30,20 @@ jobs:
 
     - name: Prepare backend config
       id: prepare
-      working-directory: terraform/
+      working-directory: ./terraform/
       run: |
         envsubst < backend.conf
         envsubst < backend.conf > backend.conf.generated
 
     - name: Terraform Backend Init
-      working-directory: terraform/
+      working-directory: ./terraform/
       run: |
           terraform init --backend-config=backend.conf.generated
       env:
         GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }} 
     
     - name: Terraform plan
-      working-directory: terraform/
+      working-directory: ./terraform/
       run: |
         terraform plan
       env:
@@ -59,7 +59,7 @@ jobs:
         exclude-workflow-initiator-as-approver: false
 
     - name: Terraform apply
-      working-directory: terraform/
+      working-directory: ./terraform/
       run: |
         terraform apply --auto-approve=true
       env:
