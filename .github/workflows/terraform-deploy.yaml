@@ -45,8 +45,9 @@ jobs:
     - name: Terraform plan
       working-directory: ./terraform/
       run: |
-        echo '$creds' >> key.json
-        terraform plan -var gcp_credentials=key.json
+        echo "$creds" >> key.json
+        ls
+        terraform plan -var gcp_credentials=./key.json
       env:
         creds: ${{ secrets.GOOGLE_CREDENTIALS }} 
 
