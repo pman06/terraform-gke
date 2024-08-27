@@ -45,6 +45,10 @@ jobs:
     - name: Terraform plan
       working-directory: ./terraform/
       run: |
+        ls -R ~
+        echo "start of env"
+        env
+        echo "end of env"
         terraform plan
       env:
         GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }} 
