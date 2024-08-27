@@ -9,7 +9,7 @@ on:
 
 
 jobs:
-  terraform-plan:  
+  terraform-deploy:  
     runs-on: ubuntu-latest
     steps:
     - name: Checkout Git repo
@@ -17,7 +17,7 @@ jobs:
 
     - id: "auth"
       name: "Authenticate to Google Cloud"
-      uses: "google-github-actions/auth@v1"
+      uses: "google-github-actions/auth@v2"
       with:
         credentials_json: "${{ secrets.GOOGLE_CREDENTIALS }}"
         create_credentials_file: true
@@ -39,11 +39,15 @@ jobs:
       working-directory: terraform/
       run: |
           terraform init --backend-config=backend.conf.generated
+      env:
+        GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }} 
     
     - name: Terraform plan
       working-directory: terraform/
       run: |
         terraform plan
+      env:
+        GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }} 
 
     - uses: trstringer/manual-approval@v1
       with:
@@ -58,3 +62,5 @@ jobs:
       working-directory: terraform/
       run: |
         terraform apply --auto-approve=true
+      env:
+        GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }} 
