@@ -91,40 +91,46 @@ jobs:
       with:
         images: ${{ env.region }}-docker.pkg.dev/${{ env.project }}/${{ vars.REPO}}/${{ vars.IMAGE }}
 
-    # - name: Build docker image
-    #   run: docker build --tag ${{ env.region }}-docker.pkg.dev/${{ env.project }}/${{ vars.REPO}}/${{ vars.IMAGE }}:${{ env.tag }} . 
 
     - name: Build and push the Docker image
-      uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
+      uses: docker/build-push-action@v3
       with:
         context: .
         push: true
-        tags: ${{ steps.meta.outputs.tags }}
+        tags: |
+          latest
+          ${{ github.sha }}
         labels: ${{ steps.meta.outputs.labels }}
         
-    
-    - name: update deployment.yaml with tag
+
+  deploy:
+    name: Deploy to k8s
+    needs: [Build_Test]
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: install kubectl
+      uses: azure/setup-kubectl@v4
+      with:
+        version: latest
+      id: install    
+
+    - name:
       run: |
-        sed -i "s+test-python-app:*+test-python-app:${{ steps.meta.outputs.tags }}+g" deployment.yaml
-        cat deployment.yaml
+        gcloud container clusters get-credentials ${{ vars.CLUSTER }} --zone ${{ vars.ZONE }} --project ${{ env.project }}
+        kubectl get nodes
 
-    # - name: install kubectl
-    #   uses: azure/setup-kubectl@v4
-    #   with:
-    #     version: latest
-    #   id: install    
-
-    # - name:
-    #   run: |
-    #     gcloud container clusters get-credentials ${{ vars.CLUSTER }} --zone ${{ vars.ZONE }} --project ${{ env.project }}
-    #     kubectl get nodes
-
-    # - name: Deploy to gke
-    #   run: kubectl apply -f deployment.yaml
+    - name: Deploy to k8s cluster
+      uses: Azure/k8s-deploy@v5
+      with:
+        namespace: 'default'
+        manifests: |
+          deployment.yaml
+        images: 'europe-west9-docker.pkg.dev/cool-academy-433713-g7/take-home-repo/test-python-app:${{ github.sha }}'
 
 
-        
+      
 
 
- 
+
 
