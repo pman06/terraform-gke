@@ -18,7 +18,7 @@ spec:
         app: test-python-app
     spec:
       containers:
-      - image: europe-west9-docker.pkg.dev/cool-academy-433713-g7/take-home-repo/test-python-app:1.0
+      - image: europe-west9-docker.pkg.dev/cool-academy-433713-g7/take-home-repo/test-python-app:GITHUB_SHA
         name: test-python-app
       imagePullSecrets:
       - name: artifactory-secrets

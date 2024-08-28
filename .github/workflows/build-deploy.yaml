@@ -133,18 +133,12 @@ jobs:
       run: |
         gcloud container clusters get-credentials ${{ vars.CLUSTER }} --region ${{ vars.CLUSTER_REGION}} --project ${{ env.project }}
         kubectl get nodes
+        ls -a
 
     - name: Deploy to k8s cluster
-      uses: Azure/k8s-deploy@v5
-      with:
-        namespace: 'default'
-        manifests: |
-          ./deployment.yaml
-        images: 'europe-west9-docker.pkg.dev/cool-academy-433713-g7/take-home-repo/test-python-app:${{ github.sha }}'
-
-
-      
-
+      run:
+        sed -i 's+GITHUB_SHA+${{ github.sha }}g' deployment.yaml
+        cat deployment.yaml
 
 
 
