@@ -97,7 +97,9 @@ jobs:
       with:
         context: .
         push: true
-        tags: ${{ env.region }}-docker.pkg.dev/${{ env.project }}/${{ vars.REPO}}/${{ vars.IMAGE }}:${{ github.sha }}
+        tags: |
+          ${{ env.region }}-docker.pkg.dev/${{ env.project }}/${{ vars.REPO}}/${{ vars.IMAGE }}:latest
+          ${{ env.region }}-docker.pkg.dev/${{ env.project }}/${{ vars.REPO}}/${{ vars.IMAGE }}:${{ github.sha }}
         labels: ${{ steps.meta.outputs.labels }}
         
 
@@ -115,7 +117,7 @@ jobs:
 
     - name:
       run: |
-        gcloud container clusters get-credentials ${{ vars.CLUSTER }} --zone ${{ vars.ZONE }} --project ${{ env.project }}
+        gcloud container clusters get-credentials ${{ vars.CLUSTER }} --region ${{ vars.CLUSTER_REGION}} --project ${{ env.project }}
         kubectl get nodes
 
     - name: Deploy to k8s cluster
