@@ -139,7 +139,7 @@ jobs:
       with:
         namespace: 'default'
         manifests: |
-          deployment.yaml
+          ./deployment.yaml
         images: 'europe-west9-docker.pkg.dev/cool-academy-433713-g7/take-home-repo/test-python-app:${{ github.sha }}'
 
 
