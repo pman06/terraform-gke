@@ -1,0 +1,95 @@
+name: GCP Instance Terraform Deployment
+
+on: 
+  push:
+    branches:
+      - main
+    # paths:
+    #   - simplesite/**
+  workflow_dispatch:
+
+
+jobs:
+  Build_Test:
+    name: Build and Test
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Git repo
+      uses: actions/checkout@v3.0.0
+
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Format with black
+      run: |
+        pip install black
+        # format the files with black
+        black .
+    - name: Lint with flake8
+      run: |
+        pip install flake8
+        # stop the build if there are Python syntax errors or undefined names
+        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+        # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
+        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+    - name: Sort imports
+      run: |
+        pip install isort
+        # stop the build if there are Python syntax errors or undefined names
+        isort .
+        isort --check --diff .
+      continue-on-error: false 
+    - name: Run tests
+      continue-on-error: false 
+      run: |
+        # Run application test cases
+        python manage.py test
+
+    # If connecting to databases, migrate database to reflect current app data model
+    # - name: Run migrations
+    #   run: |
+    #     export DATABASE_URL=postgres://${{ matrix.database-user }}:${{ matrix.database-password }}@${{ matrix.database-host }}:${{ matrix.database-port }}/${{ matrix.database-name }}
+    #     export SECRET_KEY=test-secret-key
+    #     export DEBUG=1
+    #     export ALLOWED_HOSTS=localhost
+    #     export GITHUB_WORKFLOW=True
+    #     export MODE=workflow
+    #     python manage.py makemigrations
+    #     python manage.py migrate
+    #     python manage.py migrate --run-syncdb
+    #     python manage.py check
+    
+    - id: "auth"
+      name: "Authenticate to Google Cloud"
+      uses: "google-github-actions/auth@v2"
+      with:
+        credentials_json: "${{ secrets.GOOGLE_CREDENTIALS }}"
+        create_credentials_file: true
+        export_environment_variables: true
+    - name: Setup Cloud SDK
+      uses: "google-github-actions/setup-gcloud@v1"
+     
+    - name: Use gcloud CLI
+      run: gcloud info
+
+    - name: Docker auth
+      run: |
+        gcloud auth configure-docker ${{ vars.REGION }}-docker.pkg.dev --quiet
+       
+    - name: Log into the Container registry
+      uses: docker/login-action@v3
+      with:
+        registry: ${{ vars.registry }}
+        username: ${{ vars.username }}
+        password: ${{ vars.password }}
+
+
+    - name: Docker Build
+      run: |
+        
+
+ 
+

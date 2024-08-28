@@ -29,7 +29,7 @@ resource "google_container_cluster" "primary" {
   node_locations     = local.zones
   min_master_version = local.master_version
   initial_node_count = 1
-
+  deletion_protection = false 
   node_config {
     # Google recommends custom service accounts that have cloud-platform scope and permissions granted via IAM Roles.
     service_account = google_service_account.default.email
