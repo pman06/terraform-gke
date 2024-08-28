@@ -100,7 +100,31 @@ jobs:
         context: .
         push: true
         tags: ${{ steps.meta.outputs.tags }}
-        labels: ${{ steps.meta.outputs.labels }}        
+        labels: ${{ steps.meta.outputs.labels }}
+        
+    
+    - name: update deployment.yaml with tag
+      run: |
+        sed -i "s+test-python-app:*+test-python-app:${{ steps.meta.outputs.tags }}+g" deployment.yaml
+        cat deployment.yaml
+
+    # - name: install kubectl
+    #   uses: azure/setup-kubectl@v4
+    #   with:
+    #     version: latest
+    #   id: install    
+
+    # - name:
+    #   run: |
+    #     gcloud container clusters get-credentials ${{ vars.CLUSTER }} --zone ${{ vars.ZONE }} --project ${{ env.project }}
+    #     kubectl get nodes
+
+    # - name: Deploy to gke
+    #   run: kubectl apply -f deployment.yaml
+
+
+        
+
 
  
 

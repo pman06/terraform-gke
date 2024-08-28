@@ -3,23 +3,23 @@ kind: Deployment
 metadata:
   creationTimestamp: null
   labels:
-    app: test-python-app
-  name: test-python-app
+    app: test-python-app:1.1$(echo $tag)$tag${tag}1.11.1
+  name: test-python-app:1.1$(echo $tag)$tag${tag}1.11.1
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: test-python-app
+      app: test-python-app:1.1$(echo $tag)$tag${tag}1.11.1
   strategy: {}
   template:
     metadata:
       creationTimestamp: null
       labels:
-        app: test-python-app
+        app: test-python-app:1.1$(echo $tag)$tag${tag}1.11.1
     spec:
       containers:
       - image: europe-west9-docker.pkg.dev/cool-academy-433713-g7/take-home-repo/test-python-app:1.0
-        name: test-python-app
+        name: test-python-app:1.1$(echo $tag)$tag${tag}1.11.1
       imagePullSecrets:
       - name: artifactory-secrets
 ---
@@ -29,7 +29,7 @@ kind: Service
 metadata:
   creationTimestamp: null
   labels:
-    app: test-python-app
+    app: test-python-app:1.1$(echo $tag)$tag${tag}1.11.1
   name: test-python-svc
 spec:
   ports:
@@ -38,7 +38,7 @@ spec:
     protocol: TCP
     targetPort: 8000
   selector:
-    app: test-python-app
+    app: test-python-app:1.1$(echo $tag)$tag${tag}1.11.1
   type: ClusterIP
 
 ---
