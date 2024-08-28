@@ -137,7 +137,7 @@ jobs:
 
     - name: Deploy to k8s cluster
       run:
-        sed -i 's+GITHUB_SHA+${{ github.sha }}g' deployment.yaml
+        sed -i 's+GITHUB_SHA+${{ github.sha }}+g' deployment.yaml
         cat deployment.yaml
 
 
