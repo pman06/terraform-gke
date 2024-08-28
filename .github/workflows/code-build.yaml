@@ -19,13 +19,12 @@ jobs:
     - name: Checkout Git repo
       uses: actions/checkout@v3
       with:
-        # fetch-depth: 0
+        fetch-depth: 0
         fetch-tags: true
 
     - name: Get tags
       run: |
-        git log
-        # git describe --tags --abbrev=0
+        git tag
 
     - name: Set env
       id: vars
