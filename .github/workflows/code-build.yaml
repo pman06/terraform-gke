@@ -18,10 +18,12 @@ jobs:
     steps:
     - name: Checkout Git repo
       uses: actions/checkout@v3.0.0
-    
+      with:
+        fetch-depth: 10
+        fetch-tags: true
+
     - name: Get tags
       run: |
-        git fetch --tags origin
         git describe --tags --abbrev=0
 
     - name: Set env
