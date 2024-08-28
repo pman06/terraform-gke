@@ -22,9 +22,10 @@ jobs:
         fetch-depth: 0
         fetch-tags: true
 
-    - name: Get tags
+    - name: Get latest tag
       run: |
-        git tag
+        git fetch -a
+        latest_tag=$(git describe --tags `git rev-list --tags --max-count=1`)
 
     - name: Set env
       id: vars
