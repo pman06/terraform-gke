@@ -7,7 +7,8 @@ on:
     # paths:
     #   - simplesite/**
   workflow_dispatch:
-
+env:
+  region: ${{ vars.REGION }}
 
 jobs:
   Build_Test:
@@ -85,8 +86,8 @@ jobs:
 
     - name: Docker auth
       run: |
-        echo {{ vars.REGION }}
-        gcloud auth configure-docker ${{ vars.REGION }}-docker.pkg.dev --quiet
+        echo "${{ vars.REGION }}"
+        gcloud auth configure-docker ${{ env.region }}-docker.pkg.dev --quiet
 
     # - name: Docker Build
     #   run: 
