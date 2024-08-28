@@ -9,6 +9,7 @@ on:
   workflow_dispatch:
 env:
   region: ${{ vars.REGION }}
+  project: ${{ vars.PROJECT }}
 
 jobs:
   Build_Test:
@@ -20,7 +21,7 @@ jobs:
 
     - name: Set env
       run: |
-        echo "tag=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV 
+        echo "tag=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV 
      
     - name: Test
       run: | 
@@ -78,6 +79,7 @@ jobs:
         credentials_json: "${{ secrets.GOOGLE_CREDENTIALS }}"
         create_credentials_file: true
         export_environment_variables: true
+
     - name: Setup Cloud SDK
       uses: "google-github-actions/setup-gcloud@v1"
      
@@ -89,8 +91,9 @@ jobs:
         echo "${{ vars.REGION }}"
         gcloud auth configure-docker ${{ env.region }}-docker.pkg.dev --quiet
 
-    # - name: Docker Build
-    #   run: 
+    - name: Build docker image
+      run: docker build --tag ${{ env.region }}-docker.pkg.dev/${{ env.project }}/${{ vars.REPO}}/${{ vars.IMAGE }}:${{ env.tag }} . 
+
         
 
  
