@@ -1,4 +1,4 @@
-name: GCP Instance Terraform Deployment
+name: Build and deploy Python code to GKE
 
 on: 
   push:

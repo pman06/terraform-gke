@@ -30,6 +30,8 @@ resource "google_container_cluster" "primary" {
   min_master_version = local.master_version
   initial_node_count = 1
   deletion_protection = false 
+  network    = var.network
+  subnetwork = var.subnetwork
   node_config {
     # Google recommends custom service accounts that have cloud-platform scope and permissions granted via IAM Roles.
     service_account = google_service_account.default.email
@@ -41,6 +43,15 @@ resource "google_container_cluster" "primary" {
       env = "dev"
     }
     tags = ["web", "dev"]
+  }
+
+  master_authorized_networks_config{
+    
+  }
+  private_cluster_config {
+    enable_private_endpoint = true
+    enable_private_nodes = true
+    master_ipv4_cidr_block = "172.16.0.32/28"
   }
   timeouts {
     create = "30m"
