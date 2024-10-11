@@ -40,6 +40,7 @@ jobs:
           name: run test
           command: |
             . venv/bin/activate
-            python -m pytest --cov=simplesite **/test*.py
+            
+            pytest --cov=simplesite **/test*.py
 
   
