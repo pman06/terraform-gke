@@ -17,3 +17,7 @@ output "subnet_name" {
   description = "subnet name"
   value       = google_compute_subnetwork.subnet.name
 }
+
+output "subnet_cidrs" {
+  value = google_compute_subnetwork.subnet.ip_cidr_range
+}

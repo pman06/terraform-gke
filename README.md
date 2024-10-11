@@ -46,6 +46,6 @@ https://us-west1-docker.pkg.dev
     ```
 
 - Execute command to apply deployment.yaml to cluster
-    - ```
+    ```
         kubectl apply -f deployment.yaml
     ```

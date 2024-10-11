@@ -41,3 +41,19 @@ variable "nodepools" {
     }
   }
 }
+
+variable "cidrBlock" {
+  type        = string
+  description = "The range of internal addresses that are owned by this subnetwork. Provide this property when you create the subnetwork. For example, 10.0.0.0/8 or 192.168.0.0/16. Ranges must be unique and non-overlapping within a network. Only IPv4 is supported."
+}
+
+variable "master_ipv4_cidr_block" {
+  description = "CIDR block for cluster control plane nodes"
+  type        = string
+  default     = "172.16.0.16/28"
+}
+
+variable "authorized_networks" {
+  description = "Authorized networks CIDR"
+  type        = string
+}

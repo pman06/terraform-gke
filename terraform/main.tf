@@ -33,8 +33,6 @@ module "vpc" {
   project         = var.project
 }
 
-
-
 module "vms" {
   source        = "./modules/vm"
   vm_name       = var.name

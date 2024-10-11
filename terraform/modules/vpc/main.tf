@@ -9,7 +9,7 @@ locals {
 
 
 resource "google_compute_network" "this" {
-  name                                        = "${var.vpc_name}-vpc"
+  name                            = "${var.vpc_name}"
   delete_default_routes_on_create = false
   auto_create_subnetworks           = false
   routing_mode                            = "GLOBAL"
@@ -25,7 +25,7 @@ network=google_compute_network.this.id
 
 resource "google_compute_firewall" "rules" {
   project     = var.project
-  name        = "${var.firewall_name}-firewall"
+  name        = "${var.firewall_name}"
   network     = google_compute_network.this.id
   description = "Creates firewall rule targeting tagged instances"
 

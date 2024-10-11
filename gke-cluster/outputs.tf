@@ -40,3 +40,11 @@ output "subnet_self_link" {
   description = "The URI of the created resource"
   value       = module.vpc_with_subnets.subnet_self_link
 }
+
+output "bastion-cidr-range" {
+  value = module.bastion_host.bastion-cidr-range
+}
+
+output "bastion-cidr" {
+  value = module.bastion_host.bastion-cidr
+}

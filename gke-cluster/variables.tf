@@ -39,8 +39,8 @@ variable "cidrBlock" {
 }
 
 variable "gcp_credentials" {
-  type = string
-  sensitive = true
+  type        = string
+  sensitive   = true
   description = "Google Cloud service account credentials"
 }
 
@@ -60,4 +60,15 @@ variable "nodepools" {
       node_count   = 1
     }
   }
+}
+
+variable "instance_type" {
+  description = "Bastion host instance type"
+  type        = string
+  default     = "n1-standard-1"
+}
+
+variable "sa_id" {
+  description = "Service account ID"
+  type        = string
 }
