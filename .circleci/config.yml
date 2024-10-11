@@ -4,7 +4,7 @@ version: 2.1
 executors:
   python-node:
     docker:
-      - image: python:3.13.0rc2-slim-bookworm
+      - image: python:3.13.0b4-bullseye
 
 
 jobs:
