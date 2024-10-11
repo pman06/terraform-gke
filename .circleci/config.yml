@@ -20,7 +20,7 @@ jobs:
           name: install dependencies
           command: |
 
-            python -m pip install --user pipenv
+            python3 -m pip install --user pipenv
             pipenv shell
             # . venv/bin/activate
             pipenv install 
